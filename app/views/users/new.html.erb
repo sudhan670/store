@@ -1,0 +1,22 @@
+<div>
+<h2>Sign Up</h2>
+
+<%= form_with url: signup_path, method: :post, data: { turbo: false } do %>
+  <div>
+    <%= label_tag :email, "Email" %><br>
+    <%= text_field_tag :email %>
+  </div>
+  <div>
+    <%= label_tag :password %><br>
+    <%= password_field_tag :password %>
+  </div>
+  <div>
+    <%= label_tag :role %><br>
+    <%= select_tag :role, options_for_select([["User", "user"], ["Admin", "admin"]]) %>
+  </div>
+  <%= submit_tag "Create Account" %>
+<% end %>
+</div>
+<% if flash[:alert] %>
+  <p style="color:red;"><%= flash[:alert] %></p>
+<% end %>

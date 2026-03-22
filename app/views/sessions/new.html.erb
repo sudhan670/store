@@ -1,0 +1,20 @@
+<h1>Food Vote App</h1>
+<h2>Login</h2>
+
+<%= form_with url: login_path, method: :post, data: { turbo: false } do %>
+  <div>
+    <%= label_tag :email, "Email" %><br>
+    <%= text_field_tag :email %>
+  </div>
+  <div>
+    <%= label_tag :password %><br>
+    <%= password_field_tag :password %>
+  </div>
+  <%= submit_tag "Login" %>
+<% end %>
+
+<p>New here? <%= link_to "Sign Up", signup_path %></p>
+
+<% if flash[:alert] %>
+  <p style="color:red;"><%= flash[:alert] %></p>
+<% end %>

@@ -1,0 +1,40 @@
+<h1>Food Vote</h1>
+<p>Welcome, <%= current_user.username %></p>
+<%= link_to "Logout", logout_path, method: :delete, data: { turbo_method: :delete } %>
+
+<% if flash[:notice] %><p style="color:green;"><%= flash[:notice] %></p><% end %>
+<% if flash[:alert] %><p style="color:red;"><%= flash[:alert] %></p><% end %>
+
+<% if @active_poll %>
+  <h2>Today's Poll</h2>
+  <p>Voting closes: <%= @active_poll.end_time.strftime("%b %d, %Y at %I:%M %p") %></p>
+
+  <% if @my_vote %>
+    <p>Your current vote: <strong><%= @my_vote.choice.humanize %></strong></p>
+    <p>You can change your vote below:</p>
+  <% end %>
+
+  <%= form_with url: votes_path, method: :post, data: { turbo: false } do %>
+    <%= hidden_field_tag :poll_id, @active_poll.id %>
+    <button type="submit" name="choice" value="veg">Veg</button>
+    <button type="submit" name="choice" value="non_veg">Non-Veg</button>
+    <button type="submit" name="choice" value="absent">Absent</button>
+  <% end %>
+<% else %>
+  <p>No active poll right now. Check back later!</p>
+<% end %>
+
+<% past_polls = Poll.where(active: false) %>
+
+<h2>Past Polls</h2>
+<div style="border:1px solid #eee; padding:8px; margin:8px 0;">
+  <% past_polls.each do |poll| %>
+    <div>
+      <p><strong>Hotel:</strong> <%= poll.hotel_name %></p>
+      <p><strong>Start:</strong> <%= poll.start_time %></p>
+      <p><strong>End:</strong>   <%= poll.end_time %></p>
+      <p><strong>Active:</strong> <%= poll.active %></p>
+    </div>
+  <% end %>
+</div>
+

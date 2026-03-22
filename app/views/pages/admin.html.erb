@@ -1,0 +1,41 @@
+<div>
+  <h1>Admin Dashboard</h1>
+  <%= link_to "Logout", logout_path, method: :delete, data: { turbo_method: :delete } %>
+  <h2>Create New Poll</h2>
+  <%= form_with url: polls_path, method: :post, data: { turbo: false } do |f| %>
+    <div>
+      <%= f.label :start_time %><br>
+      <%= f.datetime_field :start_time %>
+    </div>
+    <div>
+      <%= f.label :end_time %><br>
+      <%= f.datetime_field :end_time %>
+    </div>
+    <div>
+      <%= f.label :hotel_name %>
+      <%= f.text_field :hotel_name %>
+    </div>
+    <%= f.submit "Create Poll" %>
+  <% end %>
+</div>
+
+
+<div>
+  <h2>All Polls</h2>
+  <% @polls.each do |poll| %>
+    <div style="border:1px solid #ccc; padding:10px; margin:10px 0;">
+      <p><strong>Start:</strong> <%= poll.start_time %></p>
+      <p><strong>End:</strong>   <%= poll.end_time %></p>
+      <p><strong>Hotel Name:</strong> <%= poll.hotel_name %></p>
+      <p><strong>Status:</strong> <%= poll.active_now? ? "Active" : "Closed" %></p>
+      <h4>Results:</h4>
+      <% counts = poll.vote_counts %>
+      <p> Veg: <%= counts["veg"] || 0 %></p>
+      <p> Non-Veg: <%= counts["non_veg"] || 0 %></p>
+      <p> Absent: <%= counts["absent"] || 0 %></p>
+    </div>
+  <% end %>
+</div>
+
+  <% if flash[:notice] %><p style="color:green;"><%= flash[:notice] %></p><% end %>
+  <% if flash[:alert] %><p style="color:red;"><%= flash[:alert] %></p><% end %>
