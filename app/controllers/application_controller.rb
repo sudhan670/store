@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   def admin?
-    current_user&.role == "admin" && current_user&.username == "sudhan@gmail.com"
+    current_user&.role == "admin" && current_user&.username == "sudhandurai670@gmail.com"
   end
 
   def require_login

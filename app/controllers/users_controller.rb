@@ -15,4 +15,21 @@ class UsersController < ApplicationController
       redirect_to signup_path
     end
   end
+
+  def signup
+    @user = User.new(
+      email: params[:email],
+      password: params[:password],
+      role: params[:role]
+    )
+
+    if @user.save
+      UserMailer.welcome_email(@user).deliver_now  
+      flash[:notice] = "Account created! Check your email."
+      redirect_to login_path
+    else
+      flash[:alert] = "Signup failed"
+      render :new
+    end
+  end
 end
